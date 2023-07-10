@@ -20,3 +20,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # ==============================================================================
+
+from typing import List
+import jax.numpy as jnp
+
+from .particle import Particles
+
+
+class System:
+    def __init__(self, particles: Particles) -> None:
+        self.__paricles = particles
+
+    @property
+    def particles(self) -> Particles:
+        return self.__paricles
+
+    @property
+    def q(self) -> jnp.ndarray:
+        return jnp.stack([particle.q for particle in self.particles])
+
+    @property
+    def p(self) -> jnp.ndarray:
+        return jnp.stack([particle.p for particle in self.particles])
+
+    @property
+    def ke(self) -> float:
+        enegies = jnp.array([p.ke for p in self.particles])
+        return enegies.sum()
